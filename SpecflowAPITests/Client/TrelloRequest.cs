@@ -3,7 +3,7 @@ using SpecflowAPITests.Config;
 
 namespace SpecflowAPITests.Client
 {
-    public class TrelloRequest
+    public class TrelloRequest : IRequest
     {
         private RestRequest request;
 

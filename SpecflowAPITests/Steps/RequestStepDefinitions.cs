@@ -3,7 +3,8 @@ using Newtonsoft.Json.Schema;
 using NUnit.Framework;
 using RestSharp;
 using SpecflowAPITests.Client;
-using System.Collections;
+using SpecflowAPITests.Helpers;
+using SpecflowAPITests.Utils;
 using System.Collections.Generic;
 using System.IO;
 using TechTalk.SpecFlow;
@@ -13,37 +14,84 @@ namespace specflow_api_test_samples.Steps
     [Binding]
     public sealed class RequestStepDefinitions
     {
-        IClient client;
-        IRestResponse response;
-        public RequestStepDefinitions()
+        private IClient client;
+        private IRestResponse response;
+        private Helper _helper;
+
+        public RequestStepDefinitions(Helper helper)
         {
+            _helper = helper;
         }
 
         [Given(@"I use the ""(.*)"" service client")]
-        public void GivenIUseTheServiceClient(string service)
+        public void GivenIUseTheServiceClient(ApisEnum service)
         {
-            if (service.Equals("pivotal"))
+            if (service.Equals(ApisEnum.Pivotal))
             {
                 client = PivotalClient.GetInstance();
             }
-            if (service.Equals("trello"))
+            if (service.Equals(ApisEnum.Trello))
             {
                 client = TrelloClient.GetInstance();
             }
         }
 
-        [When(@"I send a POST request to ""(.*)"" with the following json body")]
-        public void WhenISendAPOSTRequestToWithTheFollowingJsonBody(string endpoint, string body)
+        [When(@"I send a ""(.*)"" POST request to ""(.*)"" with the following json body")]
+        public void WhenISendAPOSTRequestToWithTheFollowingJsonBody(ApisEnum service, string endpoint, string body)
         {
-            var request = new PivotalRequest(endpoint);
-            request.GetRequest().AddJsonBody(body);
-            response = RequestManager.Post(client, request);
+            IRequest request;
+            if (service.Equals(ApisEnum.Pivotal))
+            {
+                request = new PivotalRequest(endpoint);
+                request.GetRequest().AddJsonBody(body);
+                response = RequestManager.Post(client, request);
+            }
+            if (service.Equals(ApisEnum.Trello))
+            {
+                request = new TrelloRequest(endpoint);
+                request.GetRequest().AddJsonBody(body);
+                response = RequestManager.Post(client, request);
+            }
+        }
+
+        [When(@"I send a ""(.*)"" PUT request to ""(.*)"" with the following json body")]
+        public void WhenISendAPUTRequestToWithTheFollowingJsonBody(ApisEnum service, string endpoint, string body)
+        {
+            string endpointMapped = Mapper.MapValue(endpoint, _helper.getData());
+            IRequest request;
+            if (service.Equals(ApisEnum.Pivotal))
+            {
+                request = new PivotalRequest(endpointMapped);
+                request.GetRequest().AddJsonBody(body);
+                response = RequestManager.Put(client, request);
+            }
+            if (service.Equals(ApisEnum.Trello))
+            {
+                request = new TrelloRequest(endpointMapped);
+                request.GetRequest().AddJsonBody(body);
+                response = RequestManager.Put(client, request);
+            }
+        }
+
+        [When(@"I store project id for workspace cleaning")]
+        public void WhenIStoreProjectIdForWorkspaceCleaning()
+        {
+            var jsonObject = JObject.Parse(response.Content);
+            _helper.StoreId(jsonObject.SelectToken("id").ToString());
+        }
+
+        [When(@"I store response ""(.*)"" value as ""(.*)""")]
+        public void WhenIStoreResponseValueAs(string jsonpath, string key)
+        {
+            var jsonObject = JObject.Parse(response.Content);
+            var value = jsonObject.SelectToken(jsonpath).ToString();
+            _helper.StoreData(key, value);
         }
 
         [Then(@"I validate that the response status code is ""(\d+)""")]
         public void ThenIValidateThatTheResponseStatusCodeIs(int expectedStatusCode)
         {
-            Assert.AreEqual(expectedStatusCode, (int) response.StatusCode, "Expected status does not match.");
+            Assert.AreEqual(expectedStatusCode, (int)response.StatusCode, "Expected status does not match.");
         }
 
         [Then(@"I validate that the response body match ""(.*)"" JSON schema")]
@@ -61,11 +109,11 @@ namespace specflow_api_test_samples.Steps
         {
             var jsonObject = JObject.Parse(response.Content);
             var dictionary = new Dictionary<string, string>();
-            foreach(var row in table.Rows)
+            foreach (var row in table.Rows)
             {
                 dictionary.Add(row[0], row[1]);
             }
-            foreach(var entry in dictionary)
+            foreach (var entry in dictionary)
             {
                 Assert.AreEqual(entry.Value, jsonObject.SelectToken(entry.Key).ToString());
             }
