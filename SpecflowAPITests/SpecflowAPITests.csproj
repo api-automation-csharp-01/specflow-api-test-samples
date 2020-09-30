@@ -13,8 +13,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.13" />
     <PackageReference Include="RestSharp" Version="106.11.5" />
-    <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" Version="3.4.133" />
-    <PackageReference Include="SpecFlow.NUnit" Version="3.4.8" />
+    <PackageReference Include="SpecFlow.Allure" Version="3.1.0.6" />
+    <PackageReference Include="SpecFlow.NUnit" Version="3.3.57" />
     <PackageReference Include="nunit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.15.1" />
   </ItemGroup>
@@ -24,6 +24,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Schemas\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="allureConfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="specflow.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
