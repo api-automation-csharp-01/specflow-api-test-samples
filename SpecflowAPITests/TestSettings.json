@@ -1,12 +1,12 @@
 ﻿{
   "pivotal": {
-    "token": "re",
-    "key": "Removing logs",
+    "token": "",
+    "key": "",
     "baseUrl": "https://www.pivotaltracker.com/services/v5"
   },
   "trello": {
     "token": "",
-    "key": "re",
+    "key": "",
     "baseUrl": "https://api.trello.com/1"
   }
 }
