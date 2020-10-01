@@ -9,7 +9,7 @@ Background: Create board
 			"name": "Test duplicated"
 		}
 		"""
-	And I store project id for workspace cleaning
+	And I store board id for workspace cleaning
 	Then I validate that the response status code is "200"
 
 Scenario: Board is created with basic fields
@@ -23,7 +23,7 @@ Scenario: Board is created with basic fields
 			"prefs_background": "green"
 		}
 		"""
-	And I store project id for workspace cleaning
+	And I store board id for workspace cleaning
 	Then I validate that the response status code is "200"
 	And I validate that the response body match "Schemas/Trello/PostBoardSchema.json" JSON schema
 	And I validate that the response body contains the following values
@@ -55,7 +55,7 @@ Scenario: Board is created with duplicated name
 			"prefs_background": "green"
 		}
 		"""
-	And I store project id for workspace cleaning
+	And I store board id for workspace cleaning
 	Then I validate that the response status code is "200"
 	And I validate that the response body match "Schemas/Trello/PostBoardSchema.json" JSON schema
 	And I validate that the response body contains the following values
