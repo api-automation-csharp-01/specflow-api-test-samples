@@ -10,8 +10,8 @@ namespace SpecflowAPITests.Client
         public TrelloRequest(string resource)
         {
             request = new RestRequest();
-            request.AddParameter("key", EnvironmentConfig.GetInstance().GetKey(ApisEnum.Trello));
-            request.AddParameter("token", EnvironmentConfig.GetInstance().GetToken(ApisEnum.Trello));
+            request.AddParameter("key", EnvironmentConfig.GetInstance().GetKey(ApisEnum.Trello), ParameterType.QueryString);
+            request.AddParameter("token", EnvironmentConfig.GetInstance().GetToken(ApisEnum.Trello), ParameterType.QueryString);
             request.Resource = resource;
         }
 

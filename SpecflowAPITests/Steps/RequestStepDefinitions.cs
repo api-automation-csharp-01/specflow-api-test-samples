@@ -73,8 +73,8 @@ namespace specflow_api_test_samples.Steps
             }
         }
 
-        [When(@"I store project id for workspace cleaning")]
-        public void WhenIStoreProjectIdForWorkspaceCleaning()
+        [When(@"I store (.*) id for workspace cleaning")]
+        public void WhenIStoreProjectIdForWorkspaceCleaning(string typeItem)
         {
             var jsonObject = JObject.Parse(response.Content);
             _helper.StoreId(jsonObject.SelectToken("id").ToString());
