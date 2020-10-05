@@ -373,3 +373,6 @@ cobertura.xml
 # Specflow
 *.feature.cs
 *.feature.xlsx.*
+
+# Test settings
+SpecflowAPITests/TestSettings.json
