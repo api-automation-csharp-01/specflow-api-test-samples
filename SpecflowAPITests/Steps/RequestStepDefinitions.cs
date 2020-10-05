@@ -80,6 +80,13 @@ namespace specflow_api_test_samples.Steps
             _helper.StoreId(jsonObject.SelectToken("id").ToString());
         }
 
+        [When(@"I store board id for workspace cleaning")]
+        public void WhenIStoreBoardIdForWorkspaceCleaning()
+        {
+            var jsonObject = JObject.Parse(response.Content);
+            _helper.StoreId(jsonObject.SelectToken("id").ToString());
+        }
+
         [When(@"I store response ""(.*)"" value as ""(.*)""")]
         public void WhenIStoreResponseValueAs(string jsonpath, string key)
         {
