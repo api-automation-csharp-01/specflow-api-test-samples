@@ -4,6 +4,7 @@ using TechTalk.SpecFlow;
 
 namespace SpecflowAPITests.Hooks.Trello
 {
+    [Binding]
     public class BoardHooks
     {
         private Helper _helper;
@@ -18,7 +19,7 @@ namespace SpecflowAPITests.Hooks.Trello
         {
             foreach (string id in _helper.GetIds())
             {
-                var request = new TrelloRequest("boards/" + id.ToString());  
+                var request = new TrelloRequest("boards/" + id);
                 RequestManager.Delete(TrelloClient.GetInstance(), request);
             }
         }

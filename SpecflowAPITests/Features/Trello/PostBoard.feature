@@ -1,6 +1,6 @@
 ﻿Feature: Create Board
 
-
+@deleteBoard
 Scenario: Board piblic is created with name
 	Given I use the "Trello" service client
 	When I send a "Trello" POST request to "boards" with the following json body
