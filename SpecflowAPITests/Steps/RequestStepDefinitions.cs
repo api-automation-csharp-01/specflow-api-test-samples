@@ -57,7 +57,7 @@ namespace specflow_api_test_samples.Steps
         [When(@"I send a ""(.*)"" PUT request to ""(.*)"" with the following json body")]
         public void WhenISendAPUTRequestToWithTheFollowingJsonBody(ApisEnum service, string endpoint, string body)
         {
-            string endpointMapped = Mapper.MapValue(endpoint, _helper.getData());
+            string endpointMapped = Mapper.MapValue(endpoint, _helper.GetData());
             IRequest request;
             if (service.Equals(ApisEnum.Pivotal))
             {
@@ -73,8 +73,8 @@ namespace specflow_api_test_samples.Steps
             }
         }
 
-        [When(@"I store project id for workspace cleaning")]
-        public void WhenIStoreProjectIdForWorkspaceCleaning()
+        [When(@"I store response id for workspace cleaning")]
+        public void WhenIStoreResponseIdForWorkspaceCleaning()
         {
             var jsonObject = JObject.Parse(response.Content);
             _helper.StoreId(jsonObject.SelectToken("id").ToString());

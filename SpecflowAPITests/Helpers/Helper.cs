@@ -28,7 +28,7 @@ namespace SpecflowAPITests.Helpers
             _data.Add(key, value);
         }
 
-        public Dictionary<string, string> getData()
+        public Dictionary<string, string> GetData()
         {
             return _data;
         }
